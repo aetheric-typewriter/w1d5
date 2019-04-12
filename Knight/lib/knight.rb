@@ -10,6 +10,7 @@ class KnightPathFinder
     end
 
     def initialize(pos)
+        @start_pos = pos
         @root_node = PolyTreeNode.new(pos)
         @considered_positions = [pos]
         #self.root_node.build_move_tree
@@ -29,8 +30,8 @@ class KnightPathFinder
                 q << node
             end
         end
-        return @root_node
 
+        return @root_node
     end
 
     def new_move_positions(pos)
@@ -53,5 +54,31 @@ class KnightPathFinder
         end
     end
 
+    def find_path(end_pos)
+        end_node = @root_node.bfs(end_pos)
+    end
 
+    def trace_path_back(pos_node)
+        arr = []
+
+        current_node = pos_node
+        until current_node.nil?
+            arr << current_node
+            current_node = current_node.parent
+        end
+
+        arr
+    end
+
+end
+
+def test_kpf
+    kpf = KnightPathFinder.new([0, 0])
+    target_pos = [7, 7]
+    kpf.build_move_tree
+    target_node = kpf.find_path(target_pos)
+    result_arr = kpf.trace_path_back(target_node)
+    kpf.print_tree
+    p result_arr.map { |n| n.value }
+    nil
 end

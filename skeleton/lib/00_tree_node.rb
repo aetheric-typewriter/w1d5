@@ -2,7 +2,6 @@ require "byebug"
 
 class PolyTreeNode
 
-
     attr_reader :value, :parent, :children
 
     def initialize(val)
@@ -12,6 +11,8 @@ class PolyTreeNode
     end
 
     def parent=(node)
+        return nil if @parent == node
+
         previous_parent = @parent 
         @parent = node
         previous_parent.remove_child(self) unless previous_parent.nil?
